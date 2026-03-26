@@ -364,11 +364,6 @@
             // Clear the image source on close so the old image doesn't flash next time it opens
             setTimeout(() => { document.getElementById('dialog-image').src = ""; }, 300);
         }
-
-        window.onclick = function(event) {
-            let overlay = document.getElementById('modal-overlay');
-            if (event.target === overlay) closeDialog();
-        }
     </script>
 </body>
 </html>
