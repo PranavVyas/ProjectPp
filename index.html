@@ -118,26 +118,32 @@
         .city-zone:hover .city-dot { opacity: 1; }
         .city-zone:hover .secret-btn { display: block; }
 
-        /* --- Dialog Box --- */
+                /* --- Dialog Box --- */
         #modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6); /* Slightly darker for better visibility */
             backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            z-index: 9999; /* Maximized z-index to ensure it is always on top */
+            padding: 15px; /* Adds a safety gap around the edges */
+            box-sizing: border-box;
         }
 
         .dialog-card {
             background: white;
-            padding: 40px;
+            padding: 30px 20px; /* Flexible padding */
             border-radius: 24px;
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            min-width: 300px;
+            width: 100%;
+            max-width: 320px; /* Swapped min-width for max-width so it can shrink */
+            max-height: 90vh; /* Limits height to 90% of the screen height */
+            overflow-y: auto; /* Adds a scrollbar inside the box if zoomed in massively */
             animation: popIn 0.3s forwards;
+            box-sizing: border-box;
         }
 
         #city-name-title {
