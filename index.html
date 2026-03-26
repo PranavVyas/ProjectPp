@@ -29,7 +29,7 @@
             margin: auto; 
         }
 
-        /* --- Hints Container (Now on top) --- */
+        /* --- Hints Container --- */
         .hints-panel {
             background: white;
             padding: 25px;
@@ -59,7 +59,7 @@
             font-style: italic;
         }
 
-        /* --- Map Container (Now on bottom) --- */
+        /* --- Map Container --- */
         .map-container {
             position: relative;
             background: white;
@@ -96,20 +96,20 @@
         }
 
         /* Coordinates & Colors */
-        #zone-goa { top: 67%; left: 27%; --city-color: #2ecc71; }
-        #zone-nagpur { top: 48%; left: 43%; --city-color: #e67e22; }
-        #zone-surat { top: 49%; left: 20%; --city-color: #3498db; }
-        #zone-kosamba { top: 47.5%; left: 20.5%; --city-color: #9b59b6; }
-        #zone-bhavnagar { top: 46%; left: 18%; --city-color: #f1c40f; }
-        #zone-junagadh { top: 46.5%; left: 13%; --city-color: #e74c3c; }
-        #zone-surendranagar { top: 43%; left: 16%; --city-color: #1abc9c; }
+        #zone-goa { top: 69%; left: 21%; --city-color: #2ecc71; }
+        #zone-nagpur { top: 53%; left: 41%; --city-color: #e67e22; }
+        #zone-surat { top: 53%; left: 18%; --city-color: #3498db; }
+        #zone-kosamba { top: 50%; left: 19%; --city-color: #9b59b6; }
+        #zone-bhavnagar { top: 50%; left: 14%; --city-color: #f1c40f; }
+        #zone-junagadh { top: 51.5%; left: 10%; --city-color: #e74c3c; }
+        #zone-surendranagar { top: 47.5%; left: 15%; --city-color: #1abc9c; }
 
         .city-dot {
             width: 8px;
             height: 8px;
             background-color: var(--city-color);
             border-radius: 50%;
-            opacity: 1;
+            opacity: 0;
             transition: opacity 0.3s;
             box-shadow: 0 0 10px var(--city-color); 
         }
@@ -197,16 +197,23 @@
             border-top: 16px solid #dfe4ea;
         }
 
-        /* Image Styling */
-        .city-image {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 50%;
+        /* --- UPDATED: Strict Circular Image Styling --- */
+        .image-frame {
+            width: 150px; /* Outer frame size */
+            height: 282px;
+            overflow: hidden; /* STRICTLY cuts off anything outside the circle */
             margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f1f2f6; /* Placeholder color while loading */
+        }
+
+        .city-image {
+            width: 100%; /* Image fills frame width */
+            height: 100%; /* Image fills frame height */
+            object-fit: cover; /* Recrops portrait images to fit square center */
             display: block;
-            border: 4px solid #f1f2f6;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
 
         .close-btn {
@@ -232,6 +239,7 @@
         
         <div class="hints-panel">
             <h2>🕵️ Can you find these places?</h2>
+	    <h4> Answer to following question leads to a place in a map, click on the map for special message from the person😉 !!</h4>
             <div id="hints-list"></div>
         </div>
 
@@ -275,7 +283,9 @@
             <div id="city-name-title">City Name</div>
             <div class="thought-bubble" id="dialog-message">Message</div>
             
-            <img id="dialog-image" src="" alt="City Image" class="city-image">
+            <div class="image-frame">
+                <img id="dialog-image" src="" alt="City Image" class="city-image">
+            </div>
             
             <br>
             <button class="close-btn" onclick="closeDialog()">Close</button>
@@ -283,42 +293,42 @@
     </div>
 
     <script>
-        // Updated Data with the specific messages
+        // Data Object
         const cityData = {
             "goa": {
                 "name": "Goa",
                 "message": "Mayuri message",
-                "hint": "(1) Naam he mera similar, confusion to hoga, Gayi thi me sirf ghumne ke liye ____"
+                "hint": "Naam he mera similar, confusion to hoga,\nGayi thi me sirf ghumne ke liye ____"
             },
             "surat": {
                 "name": "Surat",
                 "message": "Tushar message",
-                "hint": "(2) Aksar Sneha jode levay che maru naam, Gaalo devano che amaro janm siddh adhikar, Bolo from where am I, yaar?"
+                "hint": "Aksar Sneha jode levay che maru naam,\nGaalo devano che amaro janm siddh adhikar,\nBolo from where am I, yaar?"
             },
             "nagpur": {
                 "name": "Nagpur",
                 "message": "Nagpur message",
-                "hint": "(3) Height he meri choti, Baate karu me uchi uchi, Baki sab ko bulaya tha yhi, Khane mene biriyani Tikhi Tikhi! Bhale baki sab kare parti varti, Ek pizza slice khake bhukh mite hamari, Bolo he mera ghar kaha, Jaani?"
+                "hint": "Height he meri choti,\nBaate karu me uchi uchi,\nBaki sab ko bulaya tha yhi,\nKhane mene biriyani Tikhi Tikhi!"
             },
             "junagadh": {
                 "name": "Junagadh",
                 "message": "Chintan",
-                "hint": "Pela Hiroshima, pachi nagasaki, Khatarnak che ana thi pan vadhare, Short speech amari, Kyathi chu hu, kaho Marwadi?"
+                "hint": "Bhale baki sab kare parti varti,\nEk pizza slice khake bhukh mite hamari,\nBolo he mera ghar kaha, Jaani?"
             },
             "bhavnagar": {
                 "name": "Bhavnagar",
                 "message": "Harshil",
-                "hint": "Aag ma nani chingari nakhi, me karu joya, Dar Saturday hu bhagi jau chu bhagi _____."
+                "hint": "Pela Hiroshima, pachi nagasaki,\nKhatarnak che ana thi pan vadhare, Short speech amari,\nKyathi chu hu, kaho ji Marwadi?"
             },
             "kosamba": {
                 "name": "Kosamba",
                 "message": "Jignasa",
-                "hint": "Handsome, Smart and Dashing, Bandh karo have tarif mari. India ni peli Soda Ashi factory jya lagi, E jagya nu naam ko to."
+                "hint": "Aag ma nani chingari nakhi, me karu joya,\nDar Saturday hu bhagi jau chu bhagi _____."
             },
             "surendranagar": {
                 "name": "Surendranagar",
                 "message": "Pranav",
-                "hint": "Mari mate koi khas hint aapi nathi, pan hu Gujarat no ek jillo chu, shodhine batao!"
+                "hint": "Handsome, Smart and Dashing, Bandh karo have tarif mari.\nIndia ni peli Soda Ash ni factory jya lagi,\nTe location janavo amari"
             }
         };
 
@@ -344,7 +354,7 @@
             document.getElementById('dialog-message').innerText = data.message;
             
             // Set the image source dynamically based on the cityId clicked
-            document.getElementById('dialog-image').src = cityId + ".jpg";
+            document.getElementById('dialog-image').src = cityId + ".png";
             
             document.getElementById('modal-overlay').style.display = 'flex'; 
         }
