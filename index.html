@@ -29,26 +29,12 @@
             align-items: center;
         }
 
-        .external-svg {
+        .external-img {
             width: 100%;
             height: 100%;
+            object-fit: contain; /* Ensures the PNG fits well inside the box */
             pointer-events: none; 
             filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.1));
-        }
-
-        #hint-tooltip {
-            position: fixed;
-            background-color: rgba(44, 62, 80, 0.95);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: bold;
-            pointer-events: none;
-            display: none;
-            z-index: 50;
-            transform: translate(15px, 15px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         /* --- Reusable City Zone Class --- */
@@ -65,44 +51,44 @@
         }
 
         /* --- Specific City Coordinates & UNIQUE COLORS --- */
+        /* TIP: If the dots don't align perfectly with your PNG, tweak these top/left percentages! */
         #zone-goa { 
             top: 67%; left: 27%; 
-            --city-color: #2ecc71; /* Emerald Green */
+            --city-color: #2ecc71; 
         }
         #zone-nagpur { 
             top: 48%; left: 43%; 
-            --city-color: #e67e22; /* Carrot Orange */
+            --city-color: #e67e22; 
         }
         #zone-surat { 
             top: 49%; left: 20%; 
-            --city-color: #3498db; /* Peter River Blue */
+            --city-color: #3498db; 
         }
         #zone-kosamba { 
             top: 47.5%; left: 20.5%; 
-            --city-color: #9b59b6; /* Amethyst Purple */
+            --city-color: #9b59b6; 
         }
         #zone-bhavnagar { 
             top: 46%; left: 18%; 
-            --city-color: #f1c40f; /* Sunflower Yellow */
+            --city-color: #f1c40f; 
         }
         #zone-junagadh { 
             top: 46.5%; left: 13%; 
-            --city-color: #e74c3c; /* Alizarin Red */
+            --city-color: #e74c3c; 
         }
         #zone-surendranagar { 
             top: 43%; left: 16%; 
-            --city-color: #1abc9c; /* Turquoise */
+            --city-color: #1abc9c; 
         }
 
         /* --- The Dot (Inherits the unique color) --- */
         .city-dot {
             width: 8px;
             height: 8px;
-            background-color: var(--city-color); /* DYNAMIC COLOR */
+            background-color: var(--city-color);
             border-radius: 50%;
             opacity: 0;
             transition: opacity 0.3s;
-            /* Glowing effect matches the city color */
             box-shadow: 0 0 10px var(--city-color); 
         }
 
@@ -110,7 +96,7 @@
         .secret-btn {
             position: absolute;
             display: none;
-            background: var(--city-color); /* DYNAMIC COLOR */
+            background: var(--city-color); 
             color: white;
             border: none;
             padding: 6px 14px;
@@ -118,14 +104,12 @@
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
-            /* The spread color of the shadow matches the button color, slightly dark */
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             white-space: nowrap;
             transform: translateX(50px); 
             animation: fadeIn 0.2s ease-out;
         }
 
-        /* Darker hover for the dynamic button */
         .secret-btn:hover {
             filter: brightness(90%);
         }
@@ -214,10 +198,8 @@
 </head>
 <body>
 
-    <div id="hint-tooltip">Keep exploring...</div>
-
     <div class="map-container" id="map-area">
-        <img src="india.png" alt="Accurate India Map" class="external-svg">
+        <img src="india.png" alt="Accurate India Map" class="external-img">
         
         <div class="city-zone" id="zone-goa">
             <div class="city-dot"></div>
@@ -269,24 +251,6 @@
     </div>
 
     <script>
-        // Tooltip Logic
-        const mapArea = document.getElementById('map-area');
-        const tooltip = document.getElementById('hint-tooltip');
-        const cityZones = document.querySelectorAll('.city-zone');
-
-        mapArea.addEventListener('mousemove', (e) => {
-            tooltip.style.display = 'block';
-            tooltip.style.left = e.clientX + 'px';
-            tooltip.style.top = e.clientY + 'px';
-        });
-
-        mapArea.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
-
-        cityZones.forEach(zone => {
-            zone.addEventListener('mouseenter', () => { tooltip.style.display = 'none'; });
-            zone.addEventListener('mouseleave', () => { tooltip.style.display = 'block'; });
-        });
-
         // Dynamic Dialog Logic
         function openDialog(cityName, emoji) { 
             document.getElementById('city-name-title').innerText = "📍 " + cityName;
@@ -304,5 +268,4 @@
         }
     </script>
 </body>
-  </html>
-  
+</html>
